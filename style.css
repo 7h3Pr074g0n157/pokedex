@@ -1,0 +1,30 @@
+body,
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#pokedex {
+  min-height: 50vh;
+  display: flex;
+  flex-wrap: wrap;
+  color: white;
+}
+
+.pokemon {
+  width: 200px;
+  padding: 10px;
+  border: 5px solid darkblue;
+  border-radius: 10%;
+  margin: 10px;
+  background-color: rgb(219, 33, 33);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.img-size {
+  border-radius: 25%;
+  background-color: white;
+}
