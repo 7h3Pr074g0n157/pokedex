@@ -2,18 +2,22 @@ const pokedata = document.getElementById('pokedata');
 
 function loadPokemons() {
   pokedata.innerHTML = '';
-  fetch('https://pokeapi.co/api/v2/pokemon/')
+  fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1118')
     .then((response) => response.json())
     .then((datas) => {
+      console.log(datas);
       fetchSinglePokemons(datas.results);
     });
-}
-
-function fetchSinglePokemons(results) {
-  results.forEach((result) => {
-    fetch(result.url)
+  }
+  
+  function fetchSinglePokemons(results) {
+    results.forEach((result) => {
+      fetch(result.url)
       .then((response) => response.json())
-      .then((datas) => renderPokeCards(datas));
+      .then((datas) => {
+        // console.log(datas);
+        renderPokeCards(datas);
+      });
   });
 }
 
