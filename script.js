@@ -8,11 +8,11 @@ function loadPokemons() {
       console.log(datas);
       fetchSinglePokemons(datas.results);
     });
-  }
-  
-  function fetchSinglePokemons(results) {
-    results.forEach((result) => {
-      fetch(result.url)
+}
+
+function fetchSinglePokemons(results) {
+  results.forEach((result) => {
+    fetch(result.url)
       .then((response) => response.json())
       .then((datas) => {
         // console.log(datas);
@@ -33,39 +33,63 @@ function createElements(tagName, attributes, text = undefined) {
   return block;
 }
 
-function renderPokeCards(pokemon) {
+function processTypeProps(pokemon, parent) {
+  let pTypes = document.createElement('p');
+
   let pokeTypes = pokemon.types.map((type) => {
     return type.type.name;
   });
-  console.log(pokeTypes);
-
-  let div = createElements('div', [
-    { class: `poke-card ${pokemon.name}` },
-    { 'data-id': pokemon.id },
-    { 'data-pokemon': pokemon.name },
-  ]);
-  let h2 = createElements('h2', [{ class: 'poke-card__name' }], pokemon.name);
-  let img = createElements('img', [
-    { class: 'poke-card__img' },
-    { src: pokemon.sprites.front_default },
-  ]);
-  // let pBaseExp = createElements(
-  //   'p',
-  //   [],
-  //   'Base Exp: ' + pokemon.base_experience
-  // );
-  let pTypes = document.createElement('p');
-
   pokeTypes.forEach((type) => {
     let span = document.createElement('span');
     span.textContent = type;
     pTypes.append(span);
   });
 
+  let backgroundColor;
+  if (pokeTypes.includes('grass')) {
+    backgroundColor = 'green';
+  } else if (pokeTypes.includes('fire')) {
+    backgroundColor = 'red';
+  } else if (pokeTypes.includes('water')) {
+    backgroundColor = 'blue';
+  } else if (pokeTypes.includes('electric')) {
+    backgroundColor = 'yellow';
+  } else if (pokeTypes.includes('poison')) {
+    backgroundColor = 'slateblue';
+  } else if (pokeTypes.includes('rock')) {
+    backgroundColor = 'grey';
+  } else if (pokeTypes.includes('normal')) {
+    backgroundColor = 'burlywood';
+  } else if (pokeTypes.includes('ground')) {
+    backgroundColor = 'brown';
+  } else if (pokeTypes.includes('ice')) {
+    backgroundColor = 'skyblue';
+  } else {
+    backgroundColor = 'rgb(219, 33, 33);';
+  }
+
+  parent.style.backgroundColor = backgroundColor;
+  parent.append(pTypes);
+  return parent;
+}
+
+function renderPokeCards(pokemon) {
+  let div = createElements('div', [
+    { class: `poke-card ${pokemon.name}` },
+    { 'data-id': pokemon.id },
+    { 'data-pokemon': pokemon.name },
+  ]);
+
+  let h2 = createElements('h2', [{ class: 'poke-card__name' }], pokemon.name);
+  let img = createElements('img', [
+    { class: 'poke-card__img' },
+    { src: pokemon.sprites.front_default },
+  ]);
+
   div.append(h2);
   div.append(img);
-  div.append(pTypes);
-  // div.append(pBaseExp);
+  div = processTypeProps(pokemon, div);
+
   div.addEventListener('click', () => handleShowClickedPokemon(pokemon));
   pokedata.append(div);
 }
@@ -85,7 +109,7 @@ function createPokeDataHead(pokemon) {
 
   header.append(h2);
   header.append(img);
-
+  header = processTypeProps(pokemon, header);
   return header;
 }
 function createPokeDataBody(pokemon) {
