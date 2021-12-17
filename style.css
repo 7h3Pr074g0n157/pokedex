@@ -1,6 +1,8 @@
 body {
   font-size: 62.5%;
   box-sizing: border-box;
+  max-width: 550px;
+  margin: 0 auto;
 }
 
 * {
@@ -15,6 +17,7 @@ body {
 
 .home-button {
   width: 100%;
+  max-width: 550px;
   height: 4vh;
   border: 5px solid darkblue;
   background-color: rgb(219, 33, 33);
